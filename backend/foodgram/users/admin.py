@@ -1,19 +1,29 @@
 from django.contrib import admin
-from users.models import User
+
 from users.models import Subscribe
+from users.models import User
 
 
 class UserAdmin(admin.ModelAdmin):
     list_display = (
-        "username",
         "pk",
-        "email",
         "first_name",
         "last_name",
+        "username",
+        "password",
+        "email",
+
     )
     search_fields = (
         "username",
         "email",
+    )
+    list_editable = (
+        "password",
+    )
+    list_filter = (
+        "username",
+        "email"
     )
 
 
@@ -31,3 +41,4 @@ class SubscribeAdmin(admin.ModelAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Subscribe, SubscribeAdmin)
+

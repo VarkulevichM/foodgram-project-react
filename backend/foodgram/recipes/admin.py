@@ -33,6 +33,7 @@ class IngredientAdmin(admin.ModelAdmin):
         "measurement_unit"
     )
     list_filter = ("name",)
+    search_fields = ('name',)
 
 
 class RecipeAdmin(admin.ModelAdmin):
@@ -49,7 +50,8 @@ class RecipeAdmin(admin.ModelAdmin):
         "name",
         "cooking_time",
         "image",
-        "author"
+        "author",
+        'text'
     )
     list_filter = (
         "name",
