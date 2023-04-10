@@ -1,11 +1,9 @@
 from drf_base64.fields import Base64ImageField
 from rest_framework import serializers
 
-from recipes.models import Favorite
 from recipes.models import Ingredient
 from recipes.models import IngredientAmount
 from recipes.models import Recipe
-from recipes.models import ShoppingCart
 from recipes.models import Tag
 from users.serializers import UserGetSerializer
 
@@ -70,43 +68,25 @@ class RecipeGetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = (
-            "id",
-            "tags",
-            "author",
-            "ingredients",
-            "is_favorited",
-            "is_in_shopping_cart",
-            "name",
-            "image",
-            "text",
-            "cooking_time"
-        )
+        fields = "__all__"
 
     def get_is_favorited(self, obj):
         """Возвращает True, если рецепт в избранном у пользователя,
         иначе False."""
 
-        request = self.context.get("request")
-
-        if request and request.user.is_authenticated:
-            return Favorite.objects.filter(
-                user=request.user,
-                recipe=obj).exists()
-
-        return False
+        if "favorites" in self.context:
+            return obj.id in self.context["favorites"]
+        else:
+            return False
 
     def get_is_in_shopping_cart(self, obj):
         """Возвращает True, если рецепт в списке покупок у пользователя,
         иначе False."""
 
-        request = self.context.get("request")
-        user = (request.user
-                if request and request.user.is_authenticated else None)
-        if user:
-            return ShoppingCart.objects.filter(user=user, recipe=obj).exists()
-
-        return False
+        if "shopping_cart" in self.context:
+            return obj.id in self.context["shopping_cart"]
+        else:
+            return False
 
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):

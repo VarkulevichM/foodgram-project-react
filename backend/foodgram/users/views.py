@@ -35,6 +35,30 @@ class UserViewSet(mixins.CreateModelMixin,
 
         return UserSerializer
 
+    def get_serializer_context(self):
+        """Возвращает дополнительный контекст, который передается в класс
+        сериализатора. Метод переопределяется для добавления
+        в контекст информации о подписках текущего пользователя.
+        Если пользователь аутентифицирован, то в контекст добавляется
+        список id авторов на которых он подписан. Если же пользователь не
+        аутентифицирован, то добавляется пустое множество.
+        """
+
+        context = super().get_serializer_context()
+        request = self.request
+
+        if request and request.user.is_authenticated:
+            subscriptions = Subscribe.objects.filter(
+                user_id=self.request.user
+            ).values_list("author_id", flat=True)
+
+        else:
+            subscriptions = set()
+
+        context.update({"subscriptions": set(subscriptions)})
+
+        return context
+
     @action(detail=False, methods=["get"],
             pagination_class=None,
             permission_classes=(IsAuthenticated,),

@@ -72,6 +72,31 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         return RecipeCreateSerializer
 
+    def get_serializer_context(self):
+        """Определяет контекст сериализатора, включая список избранных
+        рецептов и список рецептов в корзине покупок для аутентифицированных
+        пользователей. Если пользователь не аутентифицирован, контекст не
+        изменяется.
+        """
+
+        context = super().get_serializer_context()
+        request = self.request
+
+        if request and request.user.is_authenticated:
+            favorites = set(
+                Favorite.objects.filter(user=self.request.user)
+                .values_list("recipe_id", flat=True)
+            )
+            context.update({"favorites": favorites})
+
+            shopping_cart = set(
+                ShoppingCart.objects.filter(user=self.request.user)
+                .values_list("recipe_id", flat=True)
+            )
+            context.update({"shopping_cart": shopping_cart})
+
+        return context
+
     @action(detail=True, methods=["post", "delete"],
             permission_classes=(IsAuthenticated,),
             url_path="favorite",

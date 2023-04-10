@@ -5,7 +5,6 @@ from drf_base64.fields import Base64ImageField
 from rest_framework import serializers
 
 from recipes.models import (Recipe)
-from users.models import Subscribe
 from users.models import User
 
 
@@ -30,15 +29,8 @@ class UserGetSerializer(UserSerializer):
     def get_is_subscribed(self, obj):
         """Метод для получения значения поля "is_subscribed"."""
 
-        request = self.context.get("request")
-
-        if request and not request.user.is_anonymous:
-            return Subscribe.objects.filter(
-                user=request.user,
-                author=obj).exists()
-
-        return False
-
+        subscriptions = self.context.get("subscriptions", set())
+        return obj.id in subscriptions
 
 class UserSerializer(UserCreateSerializer):
     """Сериализатор для создания и обновления объектов модели User."""
@@ -138,14 +130,8 @@ class SubscriptionsGetSerializer(serializers.ModelSerializer):
     def get_is_subscribed(self, obj):
         """Метод для получения значения поля "is_subscribed"."""
 
-        request = self.context.get("request")
-
-        if request and request.user.is_authenticated:
-            return Subscribe.objects.filter(
-                user=request.user,
-                author=obj).exists()
-
-        return False
+        subscriptions = self.context.get("subscriptions", set())
+        return obj.id in subscriptions
 
     def get_recipes_count(self, obj):
         """Метод получает количество рецептов пользователя
@@ -200,12 +186,8 @@ class SubscriptionsSerializer(serializers.ModelSerializer):
     def get_is_subscribed(self, obj):
         """Метод для получения значения поля "is_subscribed"."""
 
-        request = self.context.get("request")
-
-        if request and request.user.is_authenticated:
-            return Subscribe.objects.filter(user=request.user,
-                                            author=obj).exists()
-        return False
+        subscriptions = self.context.get("subscriptions", set())
+        return obj.id in subscriptions
 
     def get_recipes_count(self, obj):
         """Метод получает количество рецептов пользователя
