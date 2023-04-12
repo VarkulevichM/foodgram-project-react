@@ -61,6 +61,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
             cd foodgram/
+            sudo docker pull varkulevichmm/backend_foodgram:latest
             sudo docker-compose stop
             sudo docker-compose rm backend
             touch .env
