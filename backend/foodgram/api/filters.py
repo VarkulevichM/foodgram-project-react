@@ -8,7 +8,7 @@ from recipes.models import Tag
 class RecipeFilter(rest_framework.FilterSet):
     """Класс фильтра для модели Recipe. Позволяет производить поиск рецептов
     по тегам, автору, наличию в списке избранного и корзине покупок.
-    Чуть с ума не сошёл пока разбирался)"""
+    """
 
     tags = rest_framework.filters.ModelMultipleChoiceFilter(
         field_name="tags__slug",
