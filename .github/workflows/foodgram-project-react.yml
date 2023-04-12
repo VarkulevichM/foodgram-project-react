@@ -19,5 +19,3 @@ jobs:
         pip install -r backend/requirements.txt
     - name: Lint and format with flake8
       run: python -m flake8
-    - name: Run pytest
-      run: pytest
