@@ -32,6 +32,7 @@ class UserGetSerializer(UserSerializer):
         subscriptions = self.context.get("subscriptions", set())
         return obj.id in subscriptions
 
+
 class UserSerializer(UserCreateSerializer):
     """Сериализатор для создания и обновления объектов модели User."""
 

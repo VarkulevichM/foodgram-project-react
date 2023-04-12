@@ -76,8 +76,8 @@ class RecipeGetSerializer(serializers.ModelSerializer):
 
         if "favorites" in self.context:
             return obj.id in self.context["favorites"]
-        else:
-            return False
+
+        return False
 
     def get_is_in_shopping_cart(self, obj):
         """Возвращает True, если рецепт в списке покупок у пользователя,
@@ -85,8 +85,8 @@ class RecipeGetSerializer(serializers.ModelSerializer):
 
         if "shopping_cart" in self.context:
             return obj.id in self.context["shopping_cart"]
-        else:
-            return False
+
+        return False
 
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):

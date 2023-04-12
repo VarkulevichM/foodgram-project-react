@@ -133,6 +133,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
             return Response(status=status.HTTP_204_NO_CONTENT)
 
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
     @action(detail=True, methods=["post", "delete"],
             permission_classes=(IsAuthenticated,),
             url_path="shopping_cart",
@@ -166,6 +168,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
             ).delete()
 
             return Response(status=status.HTTP_204_NO_CONTENT)
+
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     @action(detail=False, methods=["get"],
             permission_classes=(IsAuthenticated,),

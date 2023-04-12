@@ -41,4 +41,3 @@ class SubscribeAdmin(admin.ModelAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Subscribe, SubscribeAdmin)
-
