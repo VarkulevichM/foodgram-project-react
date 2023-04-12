@@ -35,4 +35,3 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(
                 "Файл JSON не найден")
             )
-            
