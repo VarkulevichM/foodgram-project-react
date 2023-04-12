@@ -28,11 +28,11 @@ class Command(BaseCommand):
                     ingredient.save()
 
             self.stdout.write(self.style.SUCCESS(
-                "Загрузка ингредиентов из файла JSON завершена"
-            ))
+                "Загрузка ингредиентов из файла JSON завершена")
+            )
 
         else:
             self.stdout.write(self.style.ERROR(
-                "Файл JSON не найден"
-            ))
+                "Файл JSON не найден")
+            )
             
