@@ -54,9 +54,7 @@ docker-compose --version
 
 ```
 scp docker-compose.yaml <имя пользователя>@<имя сервера/ip-адрес>/home/<username>/docker-compose.yaml
-создайте папку
-sudo mkdir nginx
-и в неё закиньте файл
+
 scp default.conf <пользователя>@<имя сервера/ip-адрес>/home/<username>/default.conf
 ```
 ### После успешного деплоя:
