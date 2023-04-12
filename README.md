@@ -1,5 +1,5 @@
 # Foodrgam
-
+![Workflow Status](https://github.com/VarkulevichM/foodgram-project-react/actions/workflows/foodgram-project-react.yml/badge.svg)
 Продуктовый помощник в котором реализованна работа сайта и API 
 На этом сервисе пользователи смогут публиковать рецепты, подписываться на 
 публикации других пользователей, добавлять понравившиеся рецепты в список 
