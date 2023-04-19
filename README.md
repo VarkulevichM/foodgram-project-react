@@ -47,10 +47,9 @@ docker-compose --version
 
 В репозитории на GitHub добавьте данные в `Settings - Secrets - Actions secrets`:
 * DOCKER_PASSWORD, DOCKER_USERNAME - для работы с DockerHub 
-* USER, HOST, PASSPHRASE, SSH_KEY - для подключения к удаленному серверу 
-* TELEGRAM_TO, TELEGRAM_TOKEN - для получения сообщения в Telegram
+* USER, HOST, PASSPHRASE, SSH_KEY - для подключения к удаленному серверу
 
-Скопируйте файлы из репозитория `docker-compose.yaml` и `nginx/default.conf` на сервер:
+Создайте папку cd foodgram/ cкопируйте файлы из репозитория `docker-compose.yaml` и `nginx/default.conf` на сервер:
 
 ```
 scp docker-compose.yaml <имя пользователя>@<имя сервера/ip-адрес>/home/<username>/docker-compose.yaml
@@ -87,12 +86,6 @@ docker-compose exec backend python manage.py load_ingredients
 
 `Сайт foodgram`
 [http://<ip-адрес сервера>/](http://51.250.90.191/)
-
-
-
-
-
-
 
 
 Автор: Варкулевич Михаил.
