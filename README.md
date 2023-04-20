@@ -61,12 +61,12 @@ scp default.conf <пользователя>@<имя сервера/ip-адрес
 ### После успешного деплоя:
 Соберите статические файлы (статику):
 ```
-docker-compose exec web python manage.py collectstatic --no-input
+docker-compose exec backend  python manage.py collectstatic --no-input
 ```
 Примените миграции:
 ```
-docker-compose exec web python manage.py makemigrations
-docker-compose exec web python manage.py migrate --noinput
+docker-compose exec backend  python manage.py makemigrations
+docker-compose exec backend  python manage.py migrate --noinput
 ```
 Создайте суперпользователя
 ```

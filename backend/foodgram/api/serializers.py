@@ -1,3 +1,4 @@
+from django.db import transaction
 from drf_base64.fields import Base64ImageField
 from rest_framework import serializers
 
@@ -144,6 +145,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
 
         return obj
 
+    @transaction.atomic
     def tags_and_ingredients_set(self, recipe, tags, ingredients):
         """Устанавливает связь многие-ко-многим с моделью
         Tag и RecipeIngredient для экземпляра рецепта."""
@@ -157,6 +159,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
             ) for ingredient in ingredients]
         )
 
+    @transaction.atomic
     def create(self, validated_data):
         """Создает новый объект рецепта."""
 
@@ -168,6 +171,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         self.tags_and_ingredients_set(recipe, tags, ingredients)
         return recipe
 
+    @transaction.atomic
     def update(self, instance, validated_data):
         """Обновляет существующий объект рецепта."""
 
