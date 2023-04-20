@@ -18,7 +18,7 @@ class Ingredient(models.Model):
     )
 
     class Meta:
-        ordering = ('name',)
+        ordering = ("name",)
         verbose_name = "Ингридиент"
         verbose_name_plural = "Ингридиенты"
 
@@ -83,19 +83,24 @@ class Recipe(models.Model):
     )
     ingredients = models.ManyToManyField(
         Ingredient,
-        through='IngredientAmount',
-        through_fields=('recipe', 'ingredient'),
-        verbose_name='Ингредиенты'
+        through="IngredientAmount",
+        through_fields=("recipe", "ingredient"),
+        verbose_name="Ингредиенты"
     )
     tags = models.ManyToManyField(
         Tag,
-        verbose_name='Теги'
+        verbose_name="Теги"
     )
 
     class Meta:
-        ordering = ('-pub_date',)
-        verbose_name = 'Рецепт'
-        verbose_name_plural = 'Рецепты'
+        ordering = ("-pub_date",)
+        verbose_name = "Рецепт"
+        verbose_name_plural = "Рецепты"
+        constraints = [
+            models.UniqueConstraint(
+                fields=("name", "author"),
+                name="unique_for_author",)
+        ]
 
     def __str__(self):
         return self.name[:20]
@@ -141,12 +146,12 @@ class Favorite(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='favorite_user',
+        related_name="favorite_user",
     )
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        related_name='favorite_recipe',
+        related_name="favorite_recipe",
     )
 
     class Meta:
@@ -158,7 +163,7 @@ class Favorite(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.user.username} - {self.recipe.name}'
+        return f"{self.user.username} - {self.recipe.name}"
 
 
 class ShoppingCart(models.Model):
@@ -167,12 +172,12 @@ class ShoppingCart(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='shopping_user',
+        related_name="shopping_user",
     )
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        related_name='shopping_recipe',
+        related_name="shopping_recipe",
     )
 
     class Meta:
@@ -184,4 +189,4 @@ class ShoppingCart(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.user.username} - {self.recipe.name}'
+        return f"{self.user.username} - {self.recipe.name}"
