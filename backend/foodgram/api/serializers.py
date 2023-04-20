@@ -162,37 +162,37 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         """Создает новый объект рецепта."""
+        with transaction.atomic():
+            tags = validated_data.pop("tags")
+            ingredients = validated_data.pop("ingredients")
 
-        tags = validated_data.pop("tags")
-        ingredients = validated_data.pop("ingredients")
-
-        recipe = Recipe.objects.create(author=self.context["request"].user,
-                                       **validated_data)
-        self.tags_and_ingredients_set(recipe, tags, ingredients)
-        return recipe
+            recipe = Recipe.objects.create(author=self.context["request"].user,
+                                           **validated_data)
+            self.tags_and_ingredients_set(recipe, tags, ingredients)
+            return recipe
 
     @transaction.atomic
     def update(self, instance, validated_data):
         """Обновляет существующий объект рецепта."""
+        with transaction.atomic():
+            instance.image = validated_data.get("image", instance.image)
+            instance.name = validated_data.get("name", instance.name)
+            instance.text = validated_data.get("text", instance.text)
+            instance.cooking_time = validated_data.get(
+                "cooking_time",
+                instance.cooking_time
+            )
+            tags = validated_data.pop("tags")
+            ingredients = validated_data.pop("ingredients")
 
-        instance.image = validated_data.get("image", instance.image)
-        instance.name = validated_data.get("name", instance.name)
-        instance.text = validated_data.get("text", instance.text)
-        instance.cooking_time = validated_data.get(
-            "cooking_time",
-            instance.cooking_time
-        )
-        tags = validated_data.pop("tags")
-        ingredients = validated_data.pop("ingredients")
+            IngredientAmount.objects.filter(
+                recipe=instance,
+                ingredient__in=instance.ingredients.all()).delete()
 
-        IngredientAmount.objects.filter(
-            recipe=instance,
-            ingredient__in=instance.ingredients.all()).delete()
+            self.tags_and_ingredients_set(instance, tags, ingredients)
+            instance.save()
 
-        self.tags_and_ingredients_set(instance, tags, ingredients)
-        instance.save()
-
-        return instance
+            return instance
 
     def to_representation(self, instance):
         return RecipeGetSerializer(instance,
