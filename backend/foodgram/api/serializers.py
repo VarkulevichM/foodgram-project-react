@@ -144,6 +144,15 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
 
         return obj
 
+    def validate_cooking_time(self, cooking_time):
+        if cooking_time < 1:
+            raise serializers.ValidationError(
+                "Время приготовления должно быть больше нуля")
+        elif cooking_time > 600:
+            raise serializers.ValidationError(
+                "Время приготовления должно быть не больше 600 минут")
+        return cooking_time
+
     def tags_and_ingredients_set(self, recipe, tags, ingredients):
         """Устанавливает связь многие-ко-многим с моделью
         Tag и RecipeIngredient для экземпляра рецепта."""
@@ -162,6 +171,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
 
         tags = validated_data.pop("tags")
         ingredients = validated_data.pop("ingredients")
+
         recipe = Recipe.objects.create(author=self.context["request"].user,
                                        **validated_data)
         self.tags_and_ingredients_set(recipe, tags, ingredients)

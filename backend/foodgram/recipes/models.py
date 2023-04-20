@@ -1,7 +1,7 @@
-from django.core import validators
-from django.core.validators import MinValueValidator
 from django.db import models
 
+from recipes.validators import validate_positive_amount
+from recipes.validators import validate_positive_cooking_time
 from users.models import User
 
 
@@ -65,7 +65,7 @@ class Recipe(models.Model):
     )
     cooking_time = models.PositiveIntegerField(
         verbose_name="время приготовления",
-        validators=(validators.MinValueValidator(1),)
+        validators=[validate_positive_cooking_time]
     )
     image = models.ImageField(
         upload_to="recipe_images/",
@@ -118,7 +118,7 @@ class IngredientAmount(models.Model):
     )
     amount = models.IntegerField(
         verbose_name="количество",
-        validators=[MinValueValidator(1)]
+        validators=[validate_positive_amount]
     )
 
     class Meta:

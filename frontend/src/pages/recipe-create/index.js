@@ -149,11 +149,20 @@ const RecipeCreate = ({ onEdit }) => {
                 className={styles.ingredientsAmountInput}
                 inputClassName={styles.ingredientsAmountValue}
                 onChange={e => {
-                  const value = e.target.value
-                  setIngredientValue({
-                    ...ingredientValue,
-                    amount: value
-                  })
+                  const value = parseInt(e.target.value)
+                  if (Number.isNaN(value)) {
+                    setIngredientValue({
+                      ...ingredientValue,
+                      amount: ''
+                    })
+                  } else if (value > 0) {
+                    setIngredientValue({
+                      ...ingredientValue,
+                      amount: value
+                     })
+                  } else {
+                    alert('Введите пожалуйста не отрицательное число')
+                  }
                 }}
                 value={ingredientValue.amount}
               />
@@ -209,8 +218,14 @@ const RecipeCreate = ({ onEdit }) => {
             labelClassName={styles.cookingTimeLabel}
             inputClassName={styles.ingredientsTimeValue}
             onChange={e => {
-              const value = e.target.value
-              setRecipeTime(value)
+              const value = parseInt(e.target.value)
+              if (Number.isNaN(value)) {
+                setRecipeTime('')
+              } else if (value > 0) {
+                setRecipeTime(value)
+              } else {
+                alert('Введите пожалуйста не отрицательное число')
+              }
             }}
             value={recipeTime}
           />
