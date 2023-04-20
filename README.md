@@ -59,6 +59,7 @@ sudo mkdir nginx
 scp default.conf <пользователя>@<имя сервера/ip-адрес>/home/<username>/default.conf
 ```
 ### После успешного деплоя:
+
 Соберите статические файлы (статику):
 ```
 sudo docker-compose exec backend  python manage.py collectstatic --no-input
