@@ -61,20 +61,20 @@ scp default.conf <пользователя>@<имя сервера/ip-адрес
 ### После успешного деплоя:
 Соберите статические файлы (статику):
 ```
-docker-compose exec backend  python manage.py collectstatic --no-input
+sudo docker-compose exec backend  python manage.py collectstatic --no-input
 ```
 Примените миграции:
 ```
-docker-compose exec backend  python manage.py makemigrations
-docker-compose exec backend  python manage.py migrate --noinput
+sudo docker-compose exec backend  python manage.py makemigrations
+sudo docker-compose exec backend  python manage.py migrate --noinput
 ```
 Создайте суперпользователя
 ```
-docker-compose exec backend python manage.py createsuperuser
+sudo docker-compose exec backend python manage.py createsuperuser
 ```
 Заполните базу ингредиентами
 ```
-docker-compose exec backend python manage.py load_ingredients
+sudo docker-compose exec backend python manage.py load_ingredients
 ```
 ### Проверьте работоспособность приложения, для этого перейдите на страницы:
 `Админка`
